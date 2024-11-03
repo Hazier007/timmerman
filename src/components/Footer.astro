@@ -1,0 +1,107 @@
+---
+import { 
+  COMPANY_NAME, 
+  PHONE, 
+  EMAIL, 
+  ADDRESS,
+  FACEBOOK_URL,
+  INSTAGRAM_URL,
+  LINKEDIN_URL
+} from '../consts';
+
+const today = new Date();
+---
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>Contact</h3>
+      <p>{COMPANY_NAME}</p>
+      <p>{ADDRESS}</p>
+      <p>Tel: <a href={`tel:${PHONE}`}>{PHONE}</a></p>
+      <p>Email: <a href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
+    </div>
+    
+    <div class="footer-section">
+      <h3>Volg Ons</h3>
+      <div class="social-links">
+        <a href={FACEBOOK_URL} target="_blank" rel="noopener">Facebook</a>
+        <a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram</a>
+        <a href={LINKEDIN_URL} target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+
+    <div class="footer-section">
+      <h3>Werkgebied</h3>
+      <p>Actief in heel Vlaanderen</p>
+      <p>Alle steden en gemeenten</p>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; {today.getFullYear()} {COMPANY_NAME}. Alle rechten voorbehouden.</p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: #2d3748;
+    color: white;
+    padding: 3rem 1rem;
+    margin-top: 4rem;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .footer-section h3 {
+    color: #a0aec0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .footer-section p {
+    margin: 0.5rem 0;
+    color: #e2e8f0;
+  }
+
+  .footer-section a {
+    color: #e2e8f0;
+    text-decoration: none;
+  }
+
+  .footer-section a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    padding-top: 2rem;
+    border-top: 1px solid #4a5568;
+    text-align: center;
+    color: #a0aec0;
+  }
+
+  @media (max-width: 768px) {
+    .footer-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .social-links {
+      justify-content: center;
+    }
+  }
+</style>

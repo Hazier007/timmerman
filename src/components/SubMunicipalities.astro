@@ -1,0 +1,55 @@
+---
+interface Props {
+  subMunicipalities: string[];
+  cityName: string;
+}
+
+const { subMunicipalities, cityName } = Astro.props;
+---
+
+<section class="sub-municipalities">
+  <h2>Wij zijn actief in alle deelgemeenten van {cityName}</h2>
+  <div class="grid">
+    {subMunicipalities.map((municipality) => (
+      <div class="municipality-card">
+        <h3>{municipality}</h3>
+        <p>Professionele timmerdiensten in {municipality}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .sub-municipalities {
+    margin: 3rem 0;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .municipality-card {
+    padding: 1.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    background: white;
+  }
+
+  .municipality-card h3 {
+    margin: 0 0 0.5rem;
+    color: #2d3748;
+  }
+
+  .municipality-card p {
+    margin: 0;
+    color: #4a5568;
+    font-size: 0.9rem;
+  }
+</style>

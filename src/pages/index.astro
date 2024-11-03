@@ -1,0 +1,183 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+import ServiceCard from '../components/ServiceCard.astro';
+import RegionsOverview from '../components/RegionsOverview.astro';
+
+const services = await getCollection('services');
+const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>{SITE_TITLE}</h1>
+      <p>{SITE_DESCRIPTION}</p>
+      <div class="cta-buttons">
+        <a href="/diensten" class="cta-button primary">Onze Diensten</a>
+        <a href="/contact" class="cta-button secondary">Contact Opnemen</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="services">
+    <h2>Onze Diensten</h2>
+    <div class="services-grid">
+      {sortedServices.map((service) => (
+        <ServiceCard
+          title={service.data.title}
+          description={service.data.description}
+          href={`/diensten/${service.slug}`}
+          icon={service.data.icon}
+        />
+      ))}
+    </div>
+  </section>
+
+  <RegionsOverview />
+
+  <section class="why-us">
+    <h2>Waarom voor ons kiezen?</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <span class="feature-icon">🛠️</span>
+        <h3>Vakmanschap</h3>
+        <p>Jarenlange ervaring in timmerwerk en houtbewerking</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">⭐</span>
+        <h3>Kwaliteit</h3>
+        <p>Gebruik van hoogwaardige materialen en technieken</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🤝</span>
+        <h3>Service</h3>
+        <p>Persoonlijke aandacht en advies op maat</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">✓</span>
+        <h3>Garantie</h3>
+        <p>100% tevredenheidsgarantie op al onze werkzaamheden</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 6rem 1rem;
+    text-align: center;
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .cta-button {
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.2s ease;
+  }
+
+  .primary {
+    background: var(--color-primary);
+    color: white;
+  }
+
+  .primary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+  }
+
+  .secondary {
+    background: white;
+    color: var(--color-primary);
+  }
+
+  .secondary:hover {
+    background: var(--color-background-alt);
+    transform: translateY(-2px);
+  }
+
+  section {
+    padding: 4rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    text-align: center;
+    color: var(--color-primary-dark);
+    margin-bottom: 3rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .feature {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+
+  .feature h3 {
+    color: var(--color-primary-dark);
+    margin-bottom: 1rem;
+  }
+
+  .feature p {
+    color: var(--color-text-light);
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+    }
+
+    .services-grid,
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

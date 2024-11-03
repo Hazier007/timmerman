@@ -1,0 +1,88 @@
+---
+interface Props {
+  city: {
+    name: string;
+    description: string;
+    population: number;
+    postalCode: string;
+  };
+}
+
+const { city } = Astro.props;
+---
+
+<div class="city-intro">
+  <div class="intro-content">
+    <h2>Timmerwerk in {city.name}</h2>
+    <p class="description">{city.description}</p>
+    <div class="city-stats">
+      <div class="stat">
+        <span class="label">Postcode</span>
+        <span class="value">{city.postalCode}</span>
+      </div>
+      <div class="stat">
+        <span class="label">Inwoners</span>
+        <span class="value">{city.population.toLocaleString()}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .city-intro {
+    background: var(--color-background-alt);
+    padding: 2rem;
+    border-radius: 1rem;
+    margin-bottom: 3rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .intro-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    color: var(--color-primary-dark);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .description {
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .city-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .label {
+    display: block;
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .value {
+    display: block;
+    color: var(--color-primary-dark);
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .city-stats {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+</style>

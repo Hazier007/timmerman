@@ -1,0 +1,152 @@
+---
+import { cities } from '../data/cities';
+import { generateSlug } from '../utils/generateSlug';
+
+const provinces = [...new Set(cities.map(city => city.province))];
+const citiesPerProvince = provinces.map(province => ({
+  name: province,
+  cities: cities.filter(city => city.province === province)
+}));
+---
+
+<section class="regions">
+  <h2>Werkgebied in Vlaanderen</h2>
+  <div class="regions-grid">
+    {citiesPerProvince.map(province => (
+      <div class="province-card">
+        <h3>{province.name}</h3>
+        <ul class="cities-list">
+          {province.cities
+            .slice(0, 5)
+            .map(city => (
+              <li>
+                <a href={`/${generateSlug(city.name)}`}>
+                  {city.name}
+                </a>
+              </li>
+            ))}
+        </ul>
+        {province.cities.length > 5 && (
+          <div class="more-cities">
+            <span>+{province.cities.length - 5} meer steden</span>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+  <div class="view-all">
+    <a href="/locaties" class="view-all-button">
+      Bekijk Alle Locaties
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .regions {
+    padding: 4rem 0;
+    background: var(--color-background-alt);
+    border-radius: 1rem;
+    margin: 4rem 0;
+  }
+
+  h2 {
+    text-align: center;
+    color: var(--color-primary-dark);
+    margin-bottom: 3rem;
+  }
+
+  .regions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .province-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .province-card h3 {
+    color: var(--color-primary-dark);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .cities-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .cities-list li {
+    margin-bottom: 0.5rem;
+  }
+
+  .cities-list a {
+    color: var(--color-text);
+    text-decoration: none;
+    display: block;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+  }
+
+  .cities-list a:hover {
+    background: var(--color-background-alt);
+    color: var(--color-primary);
+    transform: translateX(4px);
+  }
+
+  .more-cities {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+  }
+
+  .view-all {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  .view-all-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background: var(--color-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+  }
+
+  .view-all-button:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+  }
+
+  .arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .view-all-button:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 768px) {
+    .regions-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

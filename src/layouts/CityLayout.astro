@@ -1,0 +1,39 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CityHeader from '../components/CityHeader.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+interface Props {
+  city: string;
+  province: string;
+  title?: string;
+  description?: string;
+}
+
+const { city, province, title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
+---
+
+<!doctype html>
+<html lang="nl">
+  <head>
+    <BaseHead title={`${title} | ${city}`} description={description} />
+  </head>
+  <body>
+    <Header />
+    <CityHeader city={city} province={province} />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+</style>

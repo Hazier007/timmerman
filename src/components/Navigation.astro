@@ -1,0 +1,214 @@
+---
+import { cities } from '../data/cities';
+import { getCollection } from 'astro:content';
+import { generateSlug } from '../utils/generateSlug';
+
+const services = await getCollection('services');
+const provinces = [...new Set(cities.map(city => city.province))];
+const sortedCities = [...cities].sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<nav class="main-nav">
+  <ul class="nav-list">
+    <li class="nav-item has-dropdown">
+      <button class="nav-link">Werkgebied</button>
+      <div class="dropdown-content">
+        <div class="mega-menu">
+          {provinces.map(province => (
+            <div class="province-section">
+              <h3>{province}</h3>
+              <ul>
+                {sortedCities
+                  .filter(city => city.province === province)
+                  .map(city => (
+                    <li>
+                      <a href={`/${generateSlug(city.name)}`}>
+                        {city.name}
+                        <span class="postal-code">{city.postalCode}</span>
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </li>
+    <li class="nav-item has-dropdown">
+      <button class="nav-link">Diensten</button>
+      <div class="dropdown-content">
+        <div class="services-menu">
+          {services
+            .sort((a, b) => a.data.order - b.data.order)
+            .map((service) => (
+              <a href={`/diensten/${service.slug}`} class="service-link">
+                <span class="service-icon">{service.data.icon}</span>
+                <div class="service-info">
+                  <span class="service-title">{service.data.title}</span>
+                  <span class="service-desc">{service.data.description}</span>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a href="/contact" class="nav-link">Contact</a>
+    </li>
+  </ul>
+</nav>
+
+<style>
+  .main-nav {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-list {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-link {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    box-shadow: var(--shadow-lg);
+    border-radius: 0.5rem;
+    min-width: 200px;
+    padding: 1rem;
+    z-index: 1000;
+  }
+
+  .mega-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    min-width: 800px;
+    padding: 1.5rem;
+  }
+
+  .province-section h3 {
+    color: var(--color-primary-dark);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .province-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .province-section li {
+    margin-bottom: 0.5rem;
+  }
+
+  .province-section a {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+  }
+
+  .province-section a:hover {
+    background: var(--color-background-alt);
+    color: var(--color-primary);
+  }
+
+  .postal-code {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+  }
+
+  .services-menu {
+    display: grid;
+    gap: 0.5rem;
+    min-width: 400px;
+  }
+
+  .service-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    color: var(--color-text);
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .service-link:hover {
+    background: var(--color-background-alt);
+    transform: translateX(4px);
+  }
+
+  .service-icon {
+    font-size: 1.5rem;
+    background: var(--color-background-alt);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+
+  .service-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .service-title {
+    font-weight: 600;
+  }
+
+  .service-desc {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+  }
+
+  .has-dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  @media (max-width: 1024px) {
+    .mega-menu {
+      grid-template-columns: 1fr 1fr;
+      min-width: 600px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .mega-menu {
+      grid-template-columns: 1fr;
+      min-width: 300px;
+    }
+
+    .services-menu {
+      min-width: 300px;
+    }
+  }
+</style>

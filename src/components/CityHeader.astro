@@ -1,0 +1,34 @@
+---
+interface Props {
+  city: string;
+  province: string;
+}
+
+const { city, province } = Astro.props;
+---
+
+<header class="city-header">
+  <h1>{city}</h1>
+  <p class="province">{province}</p>
+</header>
+
+<style>
+  .city-header {
+    padding: 2rem 0;
+    text-align: center;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/images/carpentry-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin: 0;
+  }
+
+  .province {
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+</style>

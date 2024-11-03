@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import ServiceCard from '../../components/ServiceCard.astro';
+
+const services = await getCollection('services');
+const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Onze Diensten | Vakkundig Timmerwerk"
+  description="Ontdek ons complete aanbod van professionele timmerdiensten. Van maatwerk tot renovatie, wij staan voor u klaar."
+>
+  <div class="services-container">
+    <div class="services-header">
+      <h1>Onze Diensten</h1>
+      <p class="intro">
+        Wij bieden een breed scala aan professionele timmerdiensten. 
+        Ontdek hieronder ons complete aanbod en vind de service die bij uw project past.
+      </p>
+    </div>
+    
+    <div class="services-grid">
+      {sortedServices.map((service) => (
+        <ServiceCard
+          title={service.data.title}
+          description={service.data.description}
+          href={`/diensten/${service.slug}`}
+          icon={service.data.icon}
+        />
+      ))}
+    </div>
+
+    <div class="services-footer">
+      <div class="quality-badge">
+        <span class="badge-icon">✓</span>
+        <div class="badge-content">
+          <h3>Kwaliteitsgarantie</h3>
+          <p>Al onze diensten worden uitgevoerd met vakmanschap en oog voor detail</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .services-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+  }
+
+  .services-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 4rem;
+    padding: 2rem;
+    background: var(--color-background-alt);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  h1 {
+    color: var(--color-primary-dark);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .intro {
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .services-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 3rem;
+    border-top: 2px solid var(--color-border);
+  }
+
+  .quality-badge {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .badge-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .badge-content h3 {
+    color: var(--color-primary-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .badge-content p {
+    color: var(--color-text-light);
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .quality-badge {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

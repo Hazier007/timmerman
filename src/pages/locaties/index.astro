@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllCities } from '../../data/cities';
+import { generateSlug } from '../../utils/generateSlug';
+
+const cities = getAllCities();
+const provinces = [...new Set(cities.map(city => city.province))];
+---
+
+<BaseLayout
+  title="Werkgebied | Vakkundig Timmerwerk in Vlaanderen"
+  description="Ontdek waar we actief zijn. Professionele timmerdiensten in alle Vlaamse steden en gemeenten."
+>
+  <div class="locations-container">
+    <div class="locations-header">
+      <h1>Ons Werkgebied</h1>
+      <p>Wij zijn actief in heel Vlaanderen en bieden onze diensten aan in alle onderstaande steden en gemeenten.</p>
+    </div>
+
+    {provinces.map(province => (
+      <div class="province-section">
+        <h2>{province}</h2>
+        <div class="cities-grid">
+          {cities
+            .filter(city => city.province === province)
+            .map(city => (
+              <a href={`/${generateSlug(city.name)}`} class="city-card">
+                <div class="city-info">
+                  <h3>{city.name}</h3>
+                  <p class="postal-code">{city.postalCode}</p>
+                  {city.subMunicipalities && (
+                    <p class="sub-municipalities">
+                      {city.subMunicipalities.length} deelgemeenten
+                    </p>
+                  )}
+                </div>
+                <div class="city-arrow">→</div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .locations-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+  }
+
+  .locations-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 2rem;
+    background: var(--color-background-alt);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .locations-header h1 {
+    color: var(--color-primary-dark);
+    margin-bottom: 1rem;
+  }
+
+  .province-section {
+    margin-bottom: 3rem;
+  }
+
+  .province-section h2 {
+    color: var(--color-primary-dark);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .cities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .city-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+  }
+
+  .city-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .city-info h3 {
+    margin: 0;
+    color: var(--color-primary-dark);
+  }
+
+  .postal-code {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+  }
+
+  .sub-municipalities {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .city-arrow {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    transition: transform 0.2s ease;
+  }
+
+  .city-card:hover .city-arrow {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 768px) {
+    .cities-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

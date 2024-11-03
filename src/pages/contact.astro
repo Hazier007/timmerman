@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { PHONE, EMAIL, ADDRESS } from '../consts';
+
+---
+
+<BaseLayout
+  title="Contact | Vakkundig Timmerwerk"
+  description="Neem contact met ons op voor al uw timmerwerkzaamheden. Vraag een vrijblijvende offerte aan of stel uw vragen."
+>
+  <div class="contact-container">
+    <h1>Contact</h1>
+    
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>Contactgegevens</h2>
+        <p>
+          <strong>Telefoon:</strong><br />
+          <a href={`tel:${PHONE}`}>{PHONE}</a>
+        </p>
+        <p>
+          <strong>E-mail:</strong><br />
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+        </p>
+        <p>
+          <strong>Adres:</strong><br />
+          {ADDRESS}
+        </p>
+        
+        <div class="opening-hours">
+          <h3>Openingstijden</h3>
+          <p>Maandag - Vrijdag: 08:00 - 17:00</p>
+          <p>Zaterdag: Op afspraak</p>
+          <p>Zondag: Gesloten</p>
+        </div>
+      </div>
+
+      <form class="contact-form" action="/api/contact" method="POST">
+        <h2>Stuur ons een bericht</h2>
+        
+        <div class="form-group">
+          <label for="name">Naam *</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail *</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Telefoon</label>
+          <input type="tel" id="phone" name="phone" />
+        </div>
+
+        <div class="form-group">
+          <label for="service">Dienst</label>
+          <select id="service" name="service">
+            <option value="">Selecteer een dienst</option>
+            <option value="maatwerk">Maatwerk en Constructie</option>
+            <option value="renovatie">Renovatie en Restauratie</option>
+            <option value="interieur">Interieur Afwerking</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Bericht *</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-button">Verstuur Bericht</button>
+      </form>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    margin-top: 2rem;
+  }
+
+  .contact-info {
+    background: var(--color-background-alt);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .contact-info h2,
+  .contact-form h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-info p {
+    margin-bottom: 1.5rem;
+  }
+
+  .opening-hours {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .contact-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .submit-button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .submit-button:hover {
+    background: var(--color-primary-dark);
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

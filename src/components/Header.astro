@@ -1,0 +1,40 @@
+---
+import { SITE_TITLE } from '../consts';
+import Navigation from './Navigation.astro';
+
+---
+
+<header>
+  <div class="header-content">
+    <div class="logo">
+      <a href="/">{SITE_TITLE}</a>
+    </div>
+    <Navigation />
+  </div>
+</header>
+
+<style>
+  header {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo a {
+    color: #2d3748;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+</style>

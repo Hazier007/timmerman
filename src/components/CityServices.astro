@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import ServiceCard from './ServiceCard.astro';
+import { generateSlug } from '../utils/generateSlug';
+
+interface Props {
+  cityName: string;
+}
+
+const { cityName } = Astro.props;
+const services = await getCollection('services');
+const citySlug = generateSlug(cityName);
+---
+
+<div class="city-services">
+  <h2>Onze Diensten in {cityName}</h2>
+  <div class="services-grid">
+    {services.map((service) => (
+      <ServiceCard
+        title={service.data.title}
+        description={service.data.description}
+        href={`/${citySlug}/${service.slug}`}
+        icon={service.data.icon}
+      />
+    ))}
+  </div>
+</div>
+
+<style>
+  .city-services {
+    margin: 3rem 0;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--color-primary-dark);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
